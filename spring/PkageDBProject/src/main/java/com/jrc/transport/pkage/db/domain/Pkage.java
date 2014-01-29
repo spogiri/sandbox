@@ -1,9 +1,12 @@
-package com.jrc.transport.pkagedb.domain;
+package com.jrc.transport.pkage.db.domain;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.gemfire.mapping.Region;
 
 @Region("ne")
+@XmlRootElement
 public class Pkage {
 
 	@Id private String pkageId;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jrc.transport.pkagedb;
+package com.jrc.transport.pkage.db;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

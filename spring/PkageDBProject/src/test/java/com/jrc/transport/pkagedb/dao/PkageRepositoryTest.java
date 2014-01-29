@@ -4,17 +4,20 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Iterator;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.jrc.transport.pkagedb.config.PkageDBConfig;
-import com.jrc.transport.pkagedb.domain.Pkage;
+import com.jrc.transport.pkage.db.config.PkageDBConfig;
+import com.jrc.transport.pkage.db.dao.PkageRepository;
+import com.jrc.transport.pkage.db.domain.Pkage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=PkageDBConfig.class)
+@Ignore
 public class PkageRepositoryTest {
 
 	@Autowired
@@ -42,5 +45,5 @@ public class PkageRepositoryTest {
 		assertEquals(iter.next(), pkg);
 		assertEquals(iter.next(), secondPkg);
 	}
-
+	
 }

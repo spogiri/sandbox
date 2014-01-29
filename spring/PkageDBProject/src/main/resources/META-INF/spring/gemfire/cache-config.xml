@@ -8,7 +8,7 @@
 	<gfe:cache/>
 	<gfe:local-region id="ne">
 		<gfe:cache-listener>
-			<bean class="com.jrc.transport.pkagedb.LoggingCacheListener"/>
+			<bean class="com.jrc.transport.pkage.db.LoggingCacheListener"/>
 		</gfe:cache-listener>
 	</gfe:local-region>
 </beans>

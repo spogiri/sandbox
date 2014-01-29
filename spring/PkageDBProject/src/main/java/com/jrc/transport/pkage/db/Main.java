@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jrc.transport.pkagedb;
+package com.jrc.transport.pkage.db;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,9 +22,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.gemstone.gemfire.cache.Region;
-import com.jrc.transport.pkagedb.config.PkageDBConfig;
-import com.jrc.transport.pkagedb.dao.PkageRepository;
-import com.jrc.transport.pkagedb.domain.Pkage;
+import com.jrc.transport.pkage.db.config.PkageDBConfig;
+import com.jrc.transport.pkage.db.dao.PkageRepository;
+import com.jrc.transport.pkage.db.domain.Pkage;
 
 public class Main {
 	static Log log = LogFactory.getLog(Main.class);

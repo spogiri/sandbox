@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:gemfire="http://www.springframework.org/schema/integration/gemfire"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:amqp="http://www.springframework.org/schema/integration/amqp"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-3.0.xsd
+		http://www.springframework.org/schema/integration/gemfire http://www.springframework.org/schema/integration/gemfire/spring-integration-gemfire-3.0.xsd
+		http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp-3.0.xsd
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm.xsd
+		http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="classpath*:/META-INF/spring/gemfire/cache-config.xml"/>	
+	
+	
+	<!-- 	RabbitMQ Messaging Infrastructure -->
+		
+	<rabbit:admin connection-factory="rabbitMqConnectionFactory" />
+	
+	<rabbit:connection-factory id="rabbitMqConnectionFactory" host="162.242.232.106" username="guest" password="guest" />
+	
+	<rabbit:queue name="pkage.db.queue" />
+	
+	<rabbit:template connection-factory="rabbitMqConnectionFactory" 
+			queue="pkage.db.queue" 
+			routing-key="pkage.db.queue" 
+			message-converter="unmarshallingMessageConverter" 
+			id="amqpTemplate" />
+	
+	<!-- 	JAXB UnMarshaller -->
+	<bean id="unmarshallingMessageConverter" class="org.springframework.amqp.support.converter.MarshallingMessageConverter"
+	p:contentType="application/xml">
+		<constructor-arg ref="unmarshaller"/>
+	</bean>
+
+	<oxm:jaxb2-marshaller id="unmarshaller">
+		<oxm:class-to-be-bound name="com.jrc.transport.pkage.db.domain.Pkage"/>
+	</oxm:jaxb2-marshaller>
+	
+	<amqp:inbound-channel-adapter channel="pkage.db.channel"
+		message-converter="unmarshallingMessageConverter"
+		connection-factory="rabbitMqConnectionFactory"
+		queue-names="pkage.db.queue" />
+		
+	<int:channel id="pkage.db.channel"/>
+
+
+
+
+
+	<gemfire:outbound-channel-adapter region="ne"
+		channel="channel1" id="gemfireAdapter" >
+	</gemfire:outbound-channel-adapter>
+	<int:channel id="channel1"></int:channel>
+	
+	<int:object-to-map-transformer input-channel="pkage.db.channel" output-channel="channel1"></int:object-to-map-transformer>
+</beans>
